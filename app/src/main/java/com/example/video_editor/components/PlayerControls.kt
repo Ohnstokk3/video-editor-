@@ -3,11 +3,13 @@ package com.example.video_editor.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,7 +21,9 @@ import com.example.video_editor.UIEvent
 @Composable
 internal fun PlayerControls(
     playResourceProvider: () -> Int,
-    onUiEvent: (UIEvent) -> Unit
+    onUiEvent: (UIEvent) -> Unit,
+    progressString: String,
+
 ) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(35.dp),
@@ -52,5 +56,8 @@ internal fun PlayerControls(
                 .padding(12.dp)
                 .size(34.dp)
         )
+    }
+    Column {
+        Text(text ="$progressString" )
     }
 }

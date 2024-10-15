@@ -20,7 +20,6 @@ import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-
 @OptIn(SavedStateHandleSaveableApi::class)
 @HiltViewModel
 class SimpleMediaViewModel @Inject constructor(
@@ -85,7 +84,9 @@ class SimpleMediaViewModel @Inject constructor(
     }
 
     private fun calculateProgressValues(currentProgress: Long) {
-        progress = if (currentProgress > 0) (currentProgress.toFloat() / duration) else 0f
+        progress = if (currentProgress > 0) {
+            (currentProgress.toFloat() / duration)
+        } else 0f
         progressString = formatDuration(currentProgress)
     }
 

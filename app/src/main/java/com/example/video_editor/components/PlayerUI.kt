@@ -13,36 +13,3 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.video_editor.UIEvent
 
-
-@Composable
-fun SimpleMediaPlayerUI(
-    modifier: Modifier = Modifier,
-    durationString: String,
-    playResourceProvider: () -> Int,
-    progressProvider: () -> Pair<Float, String>,
-    onUiEvent: (UIEvent) -> Unit
-) {
-    val (progress, progressString) = progressProvider()
-
-    Box(
-        modifier = modifier
-            .padding(16.dp)
-            .shadow(elevation = 8.dp, shape = RoundedCornerShape(8.dp))
-            .background(Color.LightGray)
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            PlayerBar(
-                progress = progress,
-                durationString = durationString,
-                progressString = progressString,
-                onUiEvent = onUiEvent
-            )
-            PlayerControls(
-                playResourceProvider = playResourceProvider,
-                onUiEvent = onUiEvent
-            )
-        }
-    }
-}

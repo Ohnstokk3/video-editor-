@@ -21,7 +21,7 @@ import androidx.navigation.NavController
 import com.example.video_editor.SimpleMediaViewModel
 import com.example.video_editor.UIState
 import com.example.video_editor.components.PlayerControls
-import com.example.video_editor.components.SimpleMediaPlayerUI
+
 import com.example.video_editor.nav.Destination
 
 
@@ -50,6 +50,7 @@ internal fun SimpleMediaScreen(
 
                         isServiceRunning = false
                     }
+
                 }
 
                 ReadyContent(vm = vm)
@@ -75,6 +76,7 @@ private fun ReadyContent(
                 if (vm.isPlaying) android.R.drawable.ic_media_pause
                 else android.R.drawable.ic_media_play
             },
+            progressString=vm.progressString,
             onUiEvent = vm::onUIEvent,
         )
 
