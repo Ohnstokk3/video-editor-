@@ -51,6 +51,7 @@ internal fun PlayerBar(
             modifier = Modifier
                 .padding(horizontal = 8.dp)
         )
+        Text(text = "$newProgressValue")
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
@@ -60,12 +61,11 @@ internal fun PlayerBar(
             Text(text = progressString)
             Text(text = durationString)
         }
+        TextField(
+            value = newProgressValue2.value,
+            onValueChange = { newValue ->
+                newProgressValue2.value = newValue
+                onUiEvent(UIEvent.UpdateProgresstext(textProgress = newValue))
+            })
     }
-    TextField(
-        value = newProgressValue2.value,
-        onValueChange = { newValue ->
-            newProgressValue2.value = newValue
-            onUiEvent(UIEvent.UpdateProgresstext(textProgress = newValue))},
-
-    )
 }

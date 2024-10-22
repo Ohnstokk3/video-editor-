@@ -1,7 +1,9 @@
 package com.example.myapplication.ui.theme
 
 import android.net.Uri
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -31,7 +33,7 @@ class SimpleMediaViewModel @Inject constructor(
     var progress by savedStateHandle.saveable { mutableStateOf(0f) }
     var progressString by savedStateHandle.saveable { mutableStateOf("00:00") }
     var isPlaying by savedStateHandle.saveable { mutableStateOf(false) }
-
+    var state2 by mutableStateOf(empoyeeState())
     private val _uiState = MutableStateFlow<UIState>(UIState.Initial)
     val uiState = _uiState.asStateFlow()
 
@@ -80,7 +82,14 @@ class SimpleMediaViewModel @Inject constructor(
             }
         }
     }
+    fun ChangeName(Name:String){
 
+        state2=state2.copy(
+            Name=Name
+        )
+
+
+    }
     fun formatDuration(duration: Long): String {
         val minutes: Long = TimeUnit.MINUTES.convert(duration, TimeUnit.MILLISECONDS)
         val seconds: Long = (TimeUnit.SECONDS.convert(duration, TimeUnit.MILLISECONDS)
@@ -88,8 +97,8 @@ class SimpleMediaViewModel @Inject constructor(
         return String.format("%02d:%02d", minutes, seconds)
     }
 
-    private fun calculateProgressValues(currentProgress: Long) {
-        progress = if (currentProgress > 0) (currentProgress.toFloat() / duration) else 0f
+                private fun calculateProgressValues(currentProgress: Long) {
+            progress = if (currentProgress > 0) (currentProgress.toFloat()/ duration) else 0f
         progressString = formatDuration(currentProgress)
     }
 
@@ -125,7 +134,12 @@ class SimpleMediaViewModel @Inject constructor(
     }
 
 }
+data class empoyeeState(
+    val id: Int = 0,
+    val Name:String="",
 
+
+)
 sealed class UIEvent {
     object PlayPause : UIEvent()
     object Backward : UIEvent()
