@@ -6,4 +6,5 @@ Merging: The ability to merge multiple clips, such as photos and videos, into on
 Adding: The ability to add music, sound effects, transitions, effects, text, and captions
 Adjusting: The ability to adjust colors, saturation, and background noises
 Exporting: The ability to export the final edited video
-<img src="[https://github.com/Ohnstokk3/App_Store/blob/master/Screenshot_20240620_211435_Main_App_Store.jpg](https://github.com/Ohnstokk3/video-editor-/blob/master/Screenshot_20241026_191808_My%20Application.jpg)" width="200" height="400" />
+
+<img src="https://github.com/Ohnstokk3/App_Store/blob/master/Screenshot_20240620_212346_Main_App_Store.jpg](https://github.com/Ohnstokk3/video-editor-/blob/master/Screenshot_20241026_191808_My%20Application.jpg)" width="200" height="400" />
