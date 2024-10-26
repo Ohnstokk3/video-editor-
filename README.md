@@ -7,4 +7,3 @@ Adding: The ability to add music, sound effects, transitions, effects, text, and
 Adjusting: The ability to adjust colors, saturation, and background noises
 Exporting: The ability to export the final edited video
 
-<img src="https://github.com/Ohnstokk3/video-editor-/blob/master/Screenshot_20241026_191808_My%20Application.jpg)" width="200" height="400" />
