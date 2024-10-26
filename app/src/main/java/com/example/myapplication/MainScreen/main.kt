@@ -91,6 +91,8 @@ private fun ReadyContent(
             factory = { context ->
                 PlayerView(context).also {
                     it.player=vm.player
+                }.apply {
+                    useController = false
                 }
             }
         )
