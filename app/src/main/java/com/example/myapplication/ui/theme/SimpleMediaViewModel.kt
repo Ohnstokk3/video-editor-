@@ -11,6 +11,7 @@ import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
 import androidx.lifecycle.viewmodel.compose.saveable
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
+import androidx.media3.exoplayer.ExoPlayer
 import com.example.myapplication.service.PlayerEvent
 import com.example.myapplication.service.SimpleMediaServiceHandler
 import com.example.myapplication.service.SimpleMediaState
@@ -25,7 +26,7 @@ import javax.inject.Inject
 @OptIn(SavedStateHandleSaveableApi::class)
 @HiltViewModel
 class SimpleMediaViewModel @Inject constructor(
-    private val simpleMediaServiceHandler: SimpleMediaServiceHandler,
+    private val simpleMediaServiceHandler: SimpleMediaServiceHandler,val player: ExoPlayer,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -33,7 +34,7 @@ class SimpleMediaViewModel @Inject constructor(
     var progress by savedStateHandle.saveable { mutableStateOf(0f) }
     var progressString by savedStateHandle.saveable { mutableStateOf("00:00") }
     var isPlaying by savedStateHandle.saveable { mutableStateOf(false) }
-    var state2 by mutableStateOf(empoyeeState())
+
     private val _uiState = MutableStateFlow<UIState>(UIState.Initial)
     val uiState = _uiState.asStateFlow()
 
@@ -82,14 +83,7 @@ class SimpleMediaViewModel @Inject constructor(
             }
         }
     }
-    fun ChangeName(Name:String){
 
-        state2=state2.copy(
-            Name=Name
-        )
-
-
-    }
     fun formatDuration(duration: Long): String {
         val minutes: Long = TimeUnit.MINUTES.convert(duration, TimeUnit.MILLISECONDS)
         val seconds: Long = (TimeUnit.SECONDS.convert(duration, TimeUnit.MILLISECONDS)
@@ -104,7 +98,7 @@ class SimpleMediaViewModel @Inject constructor(
 
     private fun loadData() {
         val mediaItem = MediaItem.Builder()
-            .setUri("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3")
+            .setUri("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")
             .setMediaMetadata(
                 MediaMetadata.Builder()
                     .setFolderType(MediaMetadata.FOLDER_TYPE_ALBUMS)
@@ -134,12 +128,7 @@ class SimpleMediaViewModel @Inject constructor(
     }
 
 }
-data class empoyeeState(
-    val id: Int = 0,
-    val Name:String="",
 
-
-)
 sealed class UIEvent {
     object PlayPause : UIEvent()
     object Backward : UIEvent()

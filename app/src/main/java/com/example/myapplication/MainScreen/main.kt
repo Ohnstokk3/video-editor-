@@ -20,9 +20,13 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.media3.ui.PlayerView
 import com.example.myapplication.components.PlayerControls
 import com.example.myapplication.components.SimpleMediaPlayerUI
+import com.example.myapplication.service.SimpleMediaServiceHandler
 import com.example.myapplication.ui.theme.SimpleMediaViewModel
 import com.example.myapplication.ui.theme.UIState
 
@@ -33,6 +37,7 @@ internal fun SimpleMediaScreen(
 
     ) {
     var isServiceRunning = true
+
     val state = vm.uiState.collectAsStateWithLifecycle()
 
     Box(
@@ -54,7 +59,7 @@ internal fun SimpleMediaScreen(
                     }
                 }
 
-                ReadyContent(vm = vm)
+                ReadyContent(vm = vm,)
             }
         }
 
@@ -72,6 +77,7 @@ private fun ReadyContent(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+
         SimpleMediaPlayerUI(
             durationString = vm.formatDuration(vm.duration),
             playResourceProvider = {
@@ -81,7 +87,13 @@ private fun ReadyContent(
             progressProvider = { Pair(vm.progress, vm.progressString) },
             onUiEvent = vm::onUIEvent,
         )
-
+        AndroidView(
+            factory = { context ->
+                PlayerView(context).also {
+                    it.player=vm.player
+                }
+            }
+        )
 
 
     }

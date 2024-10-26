@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 
 class SimpleMediaServiceHandler @Inject constructor(
-    private val player: ExoPlayer
+   val player: ExoPlayer
 ) : Player.Listener {
 
     private val _simpleMediaState = MutableStateFlow<SimpleMediaState>(SimpleMediaState.Initial)

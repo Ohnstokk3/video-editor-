@@ -39,7 +39,6 @@ import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.ui.theme.SimpleMediaViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.roundToInt
-
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val viewModel: SimpleMediaViewModel by viewModels()
@@ -47,7 +46,14 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            TransformableSample()
+            val navController = rememberNavController()
+            NavHost(navController = navController, startDestination = Destination.Main.route) {
+                composable(Destination.Main.route) {
+                    SimpleMediaScreen(
+                        vm = viewModel,
+                    )
+                }
+            }
         }
     }
 }
