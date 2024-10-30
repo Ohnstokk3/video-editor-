@@ -3,7 +3,7 @@ Allowing you to set where you want the vidio to start and end. feature to expect
 
 -The ability to apply filters
 
--Importing: The ability for user to import video footage - [x]
+-Importing: The ability for user to import video footage - [] 3
 
 -Merging: The ability to merge multiple clips, such as photos and videos, into one
 
