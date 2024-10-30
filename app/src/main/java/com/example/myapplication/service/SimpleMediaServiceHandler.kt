@@ -1,6 +1,8 @@
 package com.example.myapplication.service
 
 import android.annotation.SuppressLint
+import android.net.Uri
+import androidx.lifecycle.SavedStateHandle
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
@@ -12,14 +14,15 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 class SimpleMediaServiceHandler @Inject constructor(
-   val player: ExoPlayer
-) : Player.Listener {
 
+    val player: ExoPlayer
+) : Player.Listener {
     private val _simpleMediaState = MutableStateFlow<SimpleMediaState>(SimpleMediaState.Initial)
     val simpleMediaState = _simpleMediaState.asStateFlow()
 
@@ -35,10 +38,7 @@ class SimpleMediaServiceHandler @Inject constructor(
         player.prepare()
     }
 
-    fun addMediaItemList(mediaItemList: List<MediaItem>) {
-        player.setMediaItems(mediaItemList)
-        player.prepare()
-    }
+
 
     suspend fun onPlayerEvent(playerEvent: PlayerEvent) {
         when (playerEvent) {

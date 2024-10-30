@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,15 +43,17 @@ import kotlin.math.roundToInt
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val viewModel: SimpleMediaViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+        val videoItems by viewModel.videoItems.collectAsState()
             val navController = rememberNavController()
             NavHost(navController = navController, startDestination = Destination.Main.route) {
                 composable(Destination.Main.route) {
                     SimpleMediaScreen(
-                        vm = viewModel,
+                        vm = viewModel,fr=videoItems
                     )
                 }
             }

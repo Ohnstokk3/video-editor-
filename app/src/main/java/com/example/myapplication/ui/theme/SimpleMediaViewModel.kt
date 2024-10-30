@@ -1,9 +1,9 @@
 package com.example.myapplication.ui.theme
 
 import android.net.Uri
-import androidx.compose.runtime.getValue
+
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,9 +15,13 @@ import androidx.media3.exoplayer.ExoPlayer
 import com.example.myapplication.service.PlayerEvent
 import com.example.myapplication.service.SimpleMediaServiceHandler
 import com.example.myapplication.service.SimpleMediaState
+import com.example.myapplication.service.VideoItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -27,8 +31,9 @@ import javax.inject.Inject
 @HiltViewModel
 class SimpleMediaViewModel @Inject constructor(
     private val simpleMediaServiceHandler: SimpleMediaServiceHandler,val player: ExoPlayer,
-    savedStateHandle: SavedStateHandle,
+    private val savedStateHandle: SavedStateHandle,
     private val metaDataReader: MetaDataReader
+
 ) : ViewModel() {
 
     var duration by savedStateHandle.saveable { mutableStateOf(0L) }
@@ -38,7 +43,16 @@ class SimpleMediaViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow<UIState>(UIState.Initial)
     val uiState = _uiState.asStateFlow()
-
+    private val videoUris = savedStateHandle.getStateFlow("videoUris", emptyList<Uri>())
+    val videoItems = videoUris.map { uris ->
+        uris.map { uri ->
+            VideoItem(
+                contentUri = uri,
+                mediaItem = MediaItem.fromUri(uri),
+                name = metaDataReader.getMetaDataFromUri(uri)?.fileName ?: "No name"
+            )
+        }
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
     init {
         viewModelScope.launch {
             loadData()
@@ -84,7 +98,15 @@ class SimpleMediaViewModel @Inject constructor(
             }
         }
     }
-
+    fun addVideoUri(uri: Uri) {
+        savedStateHandle["videoUris"] = videoUris.value + uri
+        player.addMediaItem(MediaItem.fromUri(uri))
+    }
+    fun playVideo(uri: Uri) {
+        player.setMediaItem(
+            videoItems.value.find { it.contentUri == uri }?.mediaItem ?: return
+        )
+    }
     fun formatDuration(duration: Long): String {
         val minutes: Long = TimeUnit.MINUTES.convert(duration, TimeUnit.MILLISECONDS)
         val seconds: Long = (TimeUnit.SECONDS.convert(duration, TimeUnit.MILLISECONDS)
