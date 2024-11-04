@@ -107,15 +107,30 @@ fr: List<VideoItem>
             progressProvider = { Pair(vm.progress, vm.progressString) },
             onUiEvent = vm::onUIEvent,
         )
-        AndroidView(
-            factory = { context ->
-                PlayerView(context).also {
-                    it.player = vm.player
-                }.apply {
-                    useController = false
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            AndroidView(
+                factory = { context ->
+                    PlayerView(context).also {
+                        it.player = vm.player
+
+                    }.apply {
+                        useController = false
+
+
+                    }
+
                 }
-            }
-        )
+            )
+            Text(
+                text = "hello world", modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top=100.dp, start = 160.dp))
+
+
+        }
+
         IconButton(onClick = {
             selectVideoLauncher.launch("video/mp4")
         }) {
